@@ -158,7 +158,56 @@ func Omit(obj interface{}, keys ...string) map[string]interface{} {
 }
 
 // Merge merges two structs/maps into a single map
+// wait should this take a interface{}, b map[string]interface
+// or two interface just combine together ??
+// similar to JS Object.Assign but create new instead assign to a
 func Merge(a, b interface{}) map[string]interface{} {
-	// optional future implementation
-	return nil
+	// create new map for result
+	result := make(map[string]interface{})
+
+	// convert a and b to map
+	aMap := toMap(a)
+	bMap := toMap(b)
+
+	// if both are unable to convert return nill
+	if aMap == nil && bMap == nil {
+		return nil
+	}
+
+	// put it into result map
+	for k, v := range aMap {
+		result[k] = v
+	}
+
+	for k, v := range bMap {
+		result[k] = v
+	}
+	return result
+}
+
+func toMap(s interface{}) map[string]interface{} {
+	result := make(map[string]interface{})
+
+	// assert if a alteady a map, return it
+	if m, ok := s.(map[string]interface{}); ok {
+		return m
+	}
+
+	// else convert struct to map
+	v := reflect.ValueOf(s)
+	t := reflect.TypeOf(s)
+
+	if v.Kind() == reflect.Pointer {
+		v = v.Elem()
+		t = t.Elem()
+	}
+	if v.Kind() != reflect.Struct {
+		return nil
+	}
+
+	for i := 0; i < v.NumField(); i++ {
+		result[t.Field(i).Name] = v.Field(i).Interface()
+	}
+
+	return result
 }
