@@ -37,15 +37,29 @@ func Find[T any](input []T, f func(T) bool) (T, bool) {
 	return zero, false
 }
 
-func FindIndex[T any](input []T, f func(T) bool) (int, bool) {
-	var index = -1
+func FindIndex[T any](input []T, f func(T) bool) int {
 
-	return index, false
+	for i, v := range input {
+		if f(v) {
+			return i
+		}
+	}
+
+	var index = -1
+	return index
 }
 
 // Reduce reduces a slice to a single value using a reducer function
-func Reduce[T any, U any](input []T, initial U, reducer func(U, T) U) U {
-	return initial
+// user must provide initial values, unlike in JS
+func Reduce[T any, U any](input []T, reducer func(U, T) U, initial U) U {
+
+	accumulator := initial
+
+	for _, v := range input {
+		accumulator = reducer(accumulator, v)
+	}
+
+	return accumulator
 }
 
 // Some returns true if any element satisfies the f
