@@ -186,7 +186,6 @@ func Merge(a, b interface{}) map[string]interface{} {
 }
 
 func ToMap(s interface{}) map[string]interface{} {
-	result := make(map[string]interface{})
 
 	// assert if a alteady a map, return it
 	if m, ok := s.(map[string]interface{}); ok {
@@ -205,6 +204,7 @@ func ToMap(s interface{}) map[string]interface{} {
 		return nil
 	}
 
+	result := make(map[string]interface{})
 	for i := 0; i < v.NumField(); i++ {
 		result[t.Field(i).Name] = v.Field(i).Interface()
 	}
