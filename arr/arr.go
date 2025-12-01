@@ -64,15 +64,32 @@ func Reduce[T any, U any](input []T, reducer func(U, T) U, initial U) U {
 
 // Some returns true if any element satisfies the f
 func Some[T any](input []T, f func(T) bool) bool {
+
+	for _, v := range input {
+		if f(v) {
+			return true
+		}
+	}
 	return false
 }
 
 // Every returns true if all elements satisfy the f
-func Every[T any](input []T, f func(T) bool) bool {
-	return false
+func Every[T any](input []T, f func(v T) bool) bool {
+	for _, v := range input {
+		if !f(v) {
+			return false
+		}
+	}
+	return true
 }
 
 // Includes returns true if the slice contains the specified element
 func Includes[T comparable](input []T, value T) bool {
+
+	for _, v := range input {
+		if v == value {
+			return true
+		}
+	}
 	return false
 }
