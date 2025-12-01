@@ -166,8 +166,8 @@ func Merge(a, b interface{}) map[string]interface{} {
 	result := make(map[string]interface{})
 
 	// convert a and b to map
-	aMap := toMap(a)
-	bMap := toMap(b)
+	aMap := ToMap(a)
+	bMap := ToMap(b)
 
 	// if both are unable to convert return nill
 	if aMap == nil && bMap == nil {
@@ -185,7 +185,7 @@ func Merge(a, b interface{}) map[string]interface{} {
 	return result
 }
 
-func toMap(s interface{}) map[string]interface{} {
+func ToMap(s interface{}) map[string]interface{} {
 	result := make(map[string]interface{})
 
 	// assert if a alteady a map, return it
