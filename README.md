@@ -21,43 +21,61 @@ import (
 )
 
 type Person struct {
-    Name  string
-    Age   int
-    Email string
+    Name   string
+    Age    int
+    Gender string
+}
+
+type Police struct {
+    Rank     string
+    Precinct string
 }
 
 func main() {
-    person := Person{
-        Name:  "John Doe",
-        Age:   30,
-        Email: "john@example.com",
-    }
+    person := Person{Name: "John", Age: 30, Gender: "Male"}
 
-    // Get keys (like Object.keys() in JS)
+    // Keys
     keys := obj.Keys(person)
-    fmt.Println(keys) // [Name Age Email]
+    fmt.Println(keys) // [Name Age Gender]
 
-    // Get values (like obj.values() in JS)
+    // Values
     values := obj.Values(person)
-    fmt.Println(values) // [John Doe 30 john@example.com]
+    fmt.Println(values) // [John 30 Male]
 
-    // Get entries (like obj.entries() in JS)
+    // Entries
     entries := obj.Entries(person)
-    for _, entry := range entries {
-        fmt.Printf("%s: %v\n", entry.Key, entry.Value)
-    }
+    fmt.Println(entries) // [{Name John} {Age 30} {Gender Male}]
+
+    // Flat entries
+    flat := obj.EntriesFlat(person)
+    fmt.Println(flat) // [[Name John] [Age 30] [Gender Male]]
 
     // Pick specific fields
-    picked := obj.Pick(person, "Name", "Email")
-    fmt.Println(picked) // map[Name:John Doe Email:john@example.com]
+    picked := obj.Pick(person, "Name", "Gender")
+    fmt.Println(picked["Name"], picked["Gender"]) // John Male
 
     // Omit specific fields
-    omitted := obj.Omit(person, "Age")
-    fmt.Println(omitted) // map[Name:John Doe Email:john@example.com]
+    omitted := obj.Omit(person, "Name", "Gender")
+    fmt.Println(omitted["Age"]) // 30
+
+    // Merge structs
+    police := Police{Rank: "Captain", Precinct: "CA"}
+    merged := obj.Merge(person, police)
+    fmt.Printf("Name: %s\nRank: %s\n", merged["Name"], merged["Rank"])
+    // Name: John
+    // Rank: Captain
+
+    // Convert struct to map
+    policeMap := obj.ToMap(police)
+    fmt.Printf("Precinct: %s\nRank: %s\n", policeMap["Precinct"], policeMap["Rank"])
+    // Precinct: CA
+    // Rank: Captain
 }
+
 ```
 
 ### Array Utilities
+// TODO, not yet done
 
 ```go
 package main
@@ -85,42 +103,20 @@ func main() {
 ```
 
 ## API Reference
-
-### object.Keys(s interface{}) []string
-Returns field names of a struct as a slice of strings.
-
-### object.Values(s interface{}) []interface{}
-Returns field values of a struct as a slice.
-
-### object.Entries(s interface{}) []Entry
-Returns key-value pairs as Entry structs.
-
-### object.EntriesFlat(s interface{}) [][2]interface{}
-Returns key-value pairs as 2D array (JS-style).
-
-### object.FromEntries(entries []Entry) map[string]interface{}
-Converts entries back to a map.
-
-### object.Pick(obj interface{}, keys ...string) map[string]interface{}
-Creates a map with only specified keys.
-
-### object.Omit(obj interface{}, keys ...string) map[string]interface{}
-Creates a map excluding specified keys.
-
-### object.Map[T any, U any](input []T, f func(T) U) []U
-Transforms a slice using a mapping function (generic).
+// TODO, not yet done
 
 ## JavaScript/TypeScript Comparison
 
-| JavaScript | Go Equivalent |
-|------------|---------------|
-| `Object.keys(obj)` | `object.Keys(obj)` |
-| `Object.values(obj)` | `object.Values(obj)` |
-| `Object.entries(obj)` | `object.Entries(obj)` |
-| `Object.fromEntries(entries)` | `object.FromEntries(entries)` |
-| `_.pick(obj, keys)` | `object.Pick(obj, keys...)` |
-| `_.omit(obj, keys)` | `object.Omit(obj, keys...)` |
-| `array.map(fn)` | `object.Map(array, fn)` |
+| JavaScript                    | Go Equivalent                 |
+| ----------------------------- | ----------------------------- |
+| `Object.keys(obj)`            | `obj.Keys(obj)`            |
+| `Object.values(obj)`          | `obj.Values(obj)`          |
+| `Object.entries(obj)`         | `obj.Entries(obj)`         |
+| `Object.fromEntries(entries)` | `obj.FromEntries(entries)` |
+| `_.pick(obj, keys)`           | `obj.Pick(obj, keys...)`   |
+| `_.omit(obj, keys)`           | `obj.Omit(obj, keys...)`   |
+| `array.map(fn)`               | `obj.Map(array, fn)`       |
+
 
 ## Requirements
 
