@@ -162,8 +162,6 @@ func Omit(obj interface{}, keys ...string) map[string]interface{} {
 // or two interface just combine together ??
 // similar to JS Object.Assign but create new instead assign to a
 func Merge(a, b interface{}) map[string]interface{} {
-	// create new map for result
-	result := make(map[string]interface{})
 
 	// convert a and b to map
 	aMap := ToMap(a)
@@ -174,6 +172,8 @@ func Merge(a, b interface{}) map[string]interface{} {
 		return nil
 	}
 
+	// create new map for result
+	result := make(map[string]interface{})
 	// put it into result map
 	for k, v := range aMap {
 		result[k] = v
