@@ -107,15 +107,7 @@ func main() {
 
 ## JavaScript/TypeScript Comparison
 
-| JavaScript                    | Go Equivalent                 |
-| ----------------------------- | ----------------------------- |
-| `Object.keys(obj)`            | `obj.Keys(obj)`            |
-| `Object.values(obj)`          | `obj.Values(obj)`          |
-| `Object.entries(obj)`         | `obj.Entries(obj)`         |
-| `Object.fromEntries(entries)` | `obj.FromEntries(entries)` |
-| `_.pick(obj, keys)`           | `obj.Pick(obj, keys...)`   |
-| `_.omit(obj, keys)`           | `obj.Omit(obj, keys...)`   |
-| `array.map(fn)`               | `obj.Map(array, fn)`       |
+// TODO, need to update this section
 
 
 ## Requirements
